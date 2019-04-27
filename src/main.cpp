@@ -1,5 +1,8 @@
+// main.cpp
+
 #include <QDomDocument>
 #include <QtCore/QtCore>
+#include <QTextStream>
 
 #include "simpleType.h"
 #include "complexType.h"
@@ -94,12 +97,22 @@ void makeGlobalTypes(QDomElement root) {
 	}
 }
 
-int main(int argc, char *argv[]) {
-	if (argc != 4 + 1) {
-		qDebug() << "usage" << argv[0] << "<schema file>" << "<user namesapce>"
-				<< "<schema namespace>" << "<destination dir>";
+int main(int argc, char *argv[])
+{
+
+    if (argc != (1 + 4))
+    {
+        QTextStream out(stdout);
+        out << "usage"
+        << argv[0]
+        << "<schema file>"      // argv[1]
+        << "<user namesapce>"   // argv[2]
+        << "<schema namespace>" // argv[3]
+        << "<destination dir>"; // argv[4]
+
 		return EXIT_FAILURE;
 	}
+
 	Settings::settings()->setUserPrefix(QString(argv[2]).isEmpty()?QString():QString(argv[2]));
 	Settings::settings()->setSchemaPrefix(QString(argv[3]).isEmpty()?QString():QString(argv[3]));
 	Settings::settings()->setDir(QString(argv[4]));
@@ -108,10 +121,13 @@ int main(int argc, char *argv[]) {
 
 	QFile *in = new QFile(argv[1]);
 	QDomDocument *doc = loadXmlDocument(in);
-	if (doc == NULL) {
+    if ( doc == NULL )
+    {
 		qDebug() << QString("error");
 		return EXIT_FAILURE;
-	} else {
+    }
+    else
+    {
 		globalizeAndName(*doc);
 		QDomElement root = doc->documentElement();
 
@@ -131,5 +147,6 @@ int main(int argc, char *argv[]) {
 		generateClasses();
 		delete doc;
 	}
+
 	return EXIT_SUCCESS;
 }

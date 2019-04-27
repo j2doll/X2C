@@ -24,7 +24,10 @@ static void saveToFile(QString file, QString &string) {
 	QFile f(file);
 	qDebug() << f.fileName();
 	f.open(QFile::WriteOnly);
-	f.write(string.toAscii());
+
+    // f.write(string.toAscii());
+    f.write( string.toLatin1() );
+
 	f.close();
 }
 
