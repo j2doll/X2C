@@ -1,7 +1,7 @@
-X2C = XML Schema to C++ classes
+# X2C = XML Schema to C++ classes
 
-Different approaches
---------------------
+## Different approaches
+
 It is a very common situation: you have some xml file and you need to read it and process.
 Generaly, there are three different approches:
 1/ SAX
@@ -18,8 +18,8 @@ Usually this approche requires two phases:
 
 I chose the last one because it provides the most human interface (if you think everything is object)
 
-What it does
-------------
+## What it does
+
 You run the first program with arguments:
 	schema file which describes whole structure, there are some limitations, but most of them will work
 	user namespace - namespace of all structures in schema you define - can be determined from header but it is to complicated
@@ -31,13 +31,13 @@ These files contains C++ classes which can be instantited simply by providing xm
 Classes themselves does whole job to read xml file, parse it and save all information to their fileds.
 Usage is the simpleast possible, one command: RootElement::fromFile(file);
 
-Usage scope
------------
+## Usage scope
+
 This application doesn't try to provide whole Object XML Mapping, but it should be sufficient for simple cases like parsing configuration or maybe some lite implementations of REST or RPC client.
 I tried to make its usage the simplest possible and in comparison with some draft, this final version doesn't generate any inheritance or polymorphism code which makes it easy to patch if necessary.
 
-How it does
------------
+## How it does
+
 First it uses DOM parser from Qt xml module and loads whole schema to memory.
 There is nothing to comment, those 10 lines were taken from Qt Example.
 
@@ -94,8 +94,8 @@ But it is too late now and it would require to rewrite most of generation part a
 Unions are not implemented, they would require to generate some extra classes for each union type and some mechanism to determine which data type the item is.
 It would make whole application bigger and buggier; and one more reason: those xml files breakes object oriented design.
 
-Types
------
+## Types
+
 Concept of types differs from that used in xml.
 Here, simple type means a type which holds value.
 Complex type holds subelements and no value, mixed content is not supported at all.
@@ -106,8 +106,8 @@ Inner model of subelements is implemented in the simpest way; it can hold list o
 It doesn't respect minOccures, maxOccures -- it ignores them because it would be very hard to determine actual edges in cases which involves <choice> elements.
 Either way, this implementation provides some functionality which I hope is universal enough for all target applications.
 
-Classes
--------
+## Classes
+
 During designing this program I went throught many schemas of generated code.
 Here I will try to comment some and describe why it was not chosen.
 1/ Classes will copy structure of data model
@@ -122,7 +122,7 @@ Each particular element would be descendant of this class and would use it metho
 Also patching would be easy, just reimplement virtual method in particular element, this seems to be quite clean.
 As I said a few paragraphs higher, I discovered this option when I was to finish the current one.
 
-Tests
------
+## Tests
+
 You can run tests.sh which tests all *.xsd tests, test marked with 0 is OK.
 Some tests are disabled either with .blocked = use another namespace schema, or .group = use groups.
