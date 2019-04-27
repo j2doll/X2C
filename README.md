@@ -4,13 +4,13 @@
 
 It is a very common situation: you have some xml file and you need to read it and process.
 Generaly, there are three different approches:
-1/ SAX
+:one: SAX
 Read it as any other file: line by line and it is up to you to parse it.
 It is useful if such xml file is too big to keep it in memory or you want only small parts of it.
-2/ DOM
+:two: DOM
 Uses its parser and creates a new universal object for each element and attribute it finds.
 These objects doesn't represent structure of xml file enought to provide static type control.
-3/ Real objects
+:three: Real objects
 Assignes each element and attribute to its own type with structure providing exactly those methods defined by XML Schema.
 Usually this approche requires two phases:
 	1) read schema, build data model, generate data structures, save them to files
@@ -42,17 +42,17 @@ First it uses DOM parser from Qt xml module and loads whole schema to memory.
 There is nothing to comment, those 10 lines were taken from Qt Example.
 
 Then it does some normalization:
-1/ removes content of <restriction> which holds value constrains.
+:one: removes content of <restriction> which holds value constrains.
 No constrains are supported because it would require two classes with same name and one is subclass of the other.
 This change should preserve 
 I said no! If xml file is valid against schema, constrains has been already used and no subtyping is necessary.
-2/ iterates through whole tree and moves definitions to root.
+:two: iterates through whole tree and moves definitions to root.
 There are elements and attributes defined deep inside tree in place they are used, it would be hard for me to process such schema.
 Element definition is moved to root child and replaced by element reference; Attributes are moved in the same way.
 This change can be done only if element/attribute names are unique.
 Deep type definition are local and anonymouse, so it is necessary to name them; names usues its own namespace $userNamespace:anon and are numbered.
 Type definition is moved to root child and replaced by type attribute in parent.
-3/ destroys <group>s and <attributeGroup>s; elements and attributes defined inside are copied to places where such group is referenced.
+:three: destroys <group>s and <attributeGroup>s; elements and attributes defined inside are copied to places where such group is referenced.
 This step is not implemented, it is commented out because it doesn't work in some scenarios: DOM manipulating methods just block whole application; couldn't resolve where the problem is located, those tests are marked .group.
 All these operations keeps schema valid with one exception: anonymouse types namespace.
 They are necessary to provide simple and unique way of processing each schema.
@@ -126,3 +126,8 @@ As I said a few paragraphs higher, I discovered this option when I was to finish
 
 You can run tests.sh which tests all *.xsd tests, test marked with 0 is OK.
 Some tests are disabled either with .blocked = use another namespace schema, or .group = use groups.
+
+## Links
+- source code https://github.com/juriad/X2C
+- forked and ported to Qt5 https://github.com/j2doll/X2C.Qt5
+
