@@ -2,16 +2,19 @@
 
 ## Different approaches
 
-It is a very common situation: you have some xml file and you need to read it and process.
+- It is a very common situation: you have some xml file and you need to read it and process.
 Generaly, there are three different approches:
+
 :one: SAX
-Read it as any other file: line by line and it is up to you to parse it.
+- Read it as any other file: line by line and it is up to you to parse it.
 It is useful if such xml file is too big to keep it in memory or you want only small parts of it.
+
 :two: DOM
-Uses its parser and creates a new universal object for each element and attribute it finds.
+- Uses its parser and creates a new universal object for each element and attribute it finds.
 These objects doesn't represent structure of xml file enought to provide static type control.
+
 :three: Real objects
-Assignes each element and attribute to its own type with structure providing exactly those methods defined by XML Schema.
+- Assignes each element and attribute to its own type with structure providing exactly those methods defined by XML Schema.
 Usually this approche requires two phases:
 	1) read schema, build data model, generate data structures, save them to files
 	2) read file valid to schema, assign each element to class, attribute to fields and manage subelements
@@ -21,10 +24,15 @@ I chose the last one because it provides the most human interface (if you think 
 ## What it does
 
 You run the first program with arguments:
-	schema file which describes whole structure, there are some limitations, but most of them will work
+
+schema file which describes whole structure, there are some limitations, but most of them will work
+	
 	user namespace - namespace of all structures in schema you define - can be determined from header but it is to complicated
+	
 	schema namespace - namespace which holds definition of schema itself
+	
 	output directory - where will be generated files placed
+	
 It does some magic and suddenly files in output directory appears.
 
 These files contains C++ classes which can be instantited simply by providing xml file to the root class factory method.
